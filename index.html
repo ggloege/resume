@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabe Gloege</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1E8;
+    --paper-2:#FBF8F1;
+    --ink:#221D18;
+    --muted:#6E655A;
+    --brick:#9E3B2C;
+    --brick-soft:rgba(158,59,44,.10);
+    --line:#E2D9C9;
+    --shadow:0 1px 2px rgba(34,29,24,.04),0 10px 30px rgba(34,29,24,.05);
+    --maxw:980px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 80% at 80% -10%,rgba(158,59,44,.05),transparent 60%);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  a{color:inherit}
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,241,232,.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.2px;text-decoration:none;color:inherit;cursor:pointer;transition:opacity .18s}
+  .brand:hover{opacity:.6}
+  .mark{width:30px;height:30px;flex:none}
+  .mark path{fill:none;stroke:var(--brick);stroke-width:2.4;stroke-linecap:round}
+  nav.links{display:flex;gap:26px}
+  nav.links a{
+    font-size:13.5px;color:var(--muted);text-decoration:none;font-weight:500;
+    letter-spacing:.3px;transition:color .18s;position:relative;
+  }
+  nav.links a:hover{color:var(--brick)}
+  @media(max-width:720px){nav.links{display:none}}
+
+  /* SECTIONS */
+  section{padding:76px 0;scroll-margin-top:64px;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:none}
+  .eyebrow{
+    font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--brick);
+    font-weight:600;margin-bottom:18px;
+  }
+  h2{font-family:'Fraunces',serif;font-weight:500;font-size:30px;line-height:1.15;letter-spacing:-.01em}
+
+  /* HERO */
+  #overview{padding-top:84px}
+  .hero-title{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
+  .hero-name{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(46px,8vw,84px);line-height:.96;letter-spacing:-.025em}
+  .position{
+    font-family:'Fraunces',serif;font-weight:400;font-size:clamp(20px,2.6vw,27px);
+    line-height:1.32;max-width:30ch;margin:26px 0 8px;color:var(--ink);
+  }
+  .position .accent{color:var(--brick);font-style:italic}
+  .contact{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:24px;font-size:14px;color:var(--muted)}
+  .contact a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .18s,color .18s}
+  .contact a:hover{color:var(--brick);border-color:var(--brick)}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+  @media(max-width:720px){.stats{gap:14px}}
+  .stat{border-top:2px solid var(--brick);padding-top:14px}
+  .stat .num{font-family:'Fraunces',serif;font-size:32px;font-weight:500;line-height:1;letter-spacing:-.02em}
+  .stat .lbl{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+
+  /* HOW I HELP */
+  .offerings{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:30px 0 0}
+  @media(max-width:640px){.offerings{grid-template-columns:1fr;gap:24px}}
+  .offer{border-top:2px solid var(--brick);padding-top:16px}
+  .offer-label{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--brick);margin-bottom:8px}
+  .offer p{font-size:15px;color:var(--ink);line-height:1.55}
+  .help-prose{margin-top:38px;display:flex;flex-direction:column;gap:18px}
+  .help-prose p{font-size:15.5px;line-height:1.68;color:var(--ink)}
+  .help-prose .pulse{color:var(--brick);font-style:italic}
+
+  /* EXPERIENCE CONTROLS */
+  .exp-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:8px 0 26px}
+  .hint{font-size:12.5px;color:var(--muted)}
+
+  .filterbar{
+    display:none;align-items:center;gap:14px;flex-wrap:wrap;
+    background:var(--brick-soft);border:1px solid rgba(158,59,44,.22);border-radius:10px;
+    padding:11px 16px;margin-bottom:24px;font-size:13.5px;
+  }
+  .filterbar.show{display:flex}
+  .filterbar b{font-weight:600;color:var(--brick)}
+  .filterbar .reset{
+    margin-left:auto;cursor:pointer;border:1px solid rgba(158,59,44,.35);background:none;
+    color:var(--brick);font-family:inherit;font-size:12.5px;font-weight:500;border-radius:999px;padding:5px 13px;
+    transition:background .18s;
+  }
+  .filterbar .reset:hover{background:rgba(158,59,44,.14)}
+
+  /* ROLE CARDS */
+  .roles{display:flex;flex-direction:column;gap:14px}
+  .role{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:13px;
+    box-shadow:var(--shadow);overflow:hidden;transition:opacity .25s,filter .25s,border-color .2s;
+  }
+  .role.dim{opacity:.34;filter:saturate(.4)}
+  .role.lit{border-color:rgba(158,59,44,.4)}
+  .card-head{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;color:inherit;
+    display:grid;grid-template-columns:1fr auto;gap:6px 18px;padding:22px 24px;align-items:start;
+  }
+  .card-head:hover .role-title{color:var(--brick)}
+  .role-title{font-family:'Fraunces',serif;font-size:19px;font-weight:600;letter-spacing:-.005em;transition:color .18s}
+  .role-org{font-size:14px;color:var(--muted);margin-top:2px}
+  .role-org .sep{opacity:.5;margin:0 7px}
+  .role-meta{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .dates{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chev{width:13px;height:13px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:rotate(45deg);transition:transform .25s;margin-top:3px}
+  .role.open .chev{transform:rotate(-135deg)}
+  .outcome{grid-column:1/-1;font-size:14.5px;color:var(--ink);margin-top:4px;max-width:62ch}
+
+  .card-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+  .role.open .card-body{grid-template-rows:1fr}
+  .card-body-inner{overflow:hidden}
+  .body-pad{padding:0 24px 24px}
+  .blurb{font-size:13.5px;color:var(--muted);font-style:italic;line-height:1.6;border-left:2px solid var(--line);padding-left:14px;margin-bottom:18px}
+  ul.bullets{list-style:none;display:flex;flex-direction:column;gap:11px}
+  ul.bullets li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.55;transition:all .2s}
+  ul.bullets li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:50%;background:var(--line)}
+  ul.bullets li.bullet-match{
+    background:var(--brick-soft);margin-left:-8px;padding:6px 8px 6px 22px;border-radius:7px;
+  }
+  ul.bullets li.bullet-match::before{background:var(--brick);left:8px;top:15px}
+
+  /* SKILLS */
+  .skill-intro{font-size:14.5px;color:var(--muted);max-width:54ch;margin-bottom:24px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{
+    font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;
+    background:var(--paper-2);border:1px solid var(--line);color:var(--ink);
+    padding:9px 16px;border-radius:999px;transition:all .18s;letter-spacing:.2px;
+  }
+  .chip:hover{border-color:var(--brick);color:var(--brick)}
+  .chip.active{background:var(--brick);border-color:var(--brick);color:var(--paper-2)}
+  .chip .ai{color:var(--brick);font-weight:600;margin-left:2px}
+  .chip.active .ai{color:var(--paper-2)}
+  .skill-note{font-size:12.5px;color:var(--muted);margin-top:20px;font-style:italic}
+
+  /* EDUCATION + SPEAKING */
+  .edu{display:flex;flex-direction:column;gap:20px}
+  .edu .deg{font-family:'Fraunces',serif;font-size:18px;font-weight:500}
+  .edu .school{font-size:14px;color:var(--muted);margin-top:3px}
+  .pubs{display:flex;flex-direction:column;gap:2px}
+  .pub{display:grid;grid-template-columns:96px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--line);align-items:baseline}
+  .pub:first-child{border-top:none}
+  @media(max-width:560px){.pub{grid-template-columns:1fr;gap:4px}}
+  .pub .type{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brick);font-weight:600;padding-top:3px}
+  .pub .ptitle{font-family:'Fraunces',serif;font-size:16.5px;font-weight:500}
+  .pub .ptitle a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:color .18s,border-color .18s}
+  .pub .ptitle a:hover{color:var(--brick);border-bottom-color:var(--brick)}
+  .pub .ptitle .arr{font-size:12px;color:var(--muted);margin-left:6px;transition:color .18s}
+  .pub .ptitle a:hover .arr{color:var(--brick)}
+  .pub .pdesc{font-size:13.5px;color:var(--muted);margin-top:3px}
+
+  footer{padding:40px 0 56px;text-align:center;color:var(--muted);font-size:12.5px}
+
+  /* load reveal */
+  .reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" data-target="overview" role="button" tabindex="0" aria-label="Back to top">
+      <svg class="mark" viewBox="0 0 48 48" aria-hidden="true"><path id="spiral" d=""/></svg>
+      Gabe Gloege
+    </a>
+    <nav class="links">
+      <a data-target="help" role="button" tabindex="0">How I Help</a>
+      <a data-target="skills" role="button" tabindex="0">Skills</a>
+      <a data-target="experience" role="button" tabindex="0">Experience</a>
+      <a data-target="speaking" role="button" tabindex="0">Writing &amp; Speaking</a>
+      <a data-target="education" role="button" tabindex="0">Education</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- OVERVIEW -->
+  <section id="overview">
+    <div class="reveal" style="animation-delay:.05s">
+      <div class="hero-title">AI-Forward Learning &amp; Development Leader</div>
+      <h1 class="hero-name">Gabe Gloege</h1>
+      <p class="position">I help companies learn to use AI and use AI to learn. I get called in for the problems that <span class="accent">don&rsquo;t have a playbook yet.</span></p>
+      <div class="contact">
+        <a href="mailto:gabe.gloege@gmail.com">gabe.gloege@gmail.com</a>
+        <a href="https://linkedin.com/in/gabegloege" target="_blank" rel="noopener">linkedin.com/in/gabegloege</a>
+        <span>Princeton, NJ</span>
+      </div>
+    </div>
+    <div class="stats reveal" style="animation-delay:.18s">
+      <div class="stat"><div class="num">97%</div><div class="lbl">consulting cost cut by integrating LLMs (5-hour engagement to a 2-minute call)</div></div>
+      <div class="stat"><div class="num">1,000+</div><div class="lbl">users on Iris, the AI talent platform built at CultivateMe</div></div>
+      <div class="stat"><div class="num">2,500</div><div class="lbl">person enterprise whose L&amp;D function was rebuilt end to end</div></div>
+    </div>
+  </section>
+
+  <!-- HOW I HELP -->
+  <section id="help">
+    <div class="eyebrow">How I Help</div>
+    <h2>Companies bring me in for two reasons:</h2>
+    <div class="offerings">
+      <div class="offer">
+        <div class="offer-label">AI Enablement</div>
+        <p>Design and deliver learning experiences that get people using AI in ways that impact the bottom line.</p>
+      </div>
+      <div class="offer">
+        <div class="offer-label">AI-Forward L&amp;D</div>
+        <p>Build and evolve an AI-enabled learning environment that attracts, develops, and retains great talent.</p>
+      </div>
+    </div>
+    <div class="help-prose">
+      <p>In either case I bring a combination of learning expertise, AI fluency, and a product mindset, developed over 15+ years of leading learning functions in startups, scale-ups, and corporate enterprise.</p>
+      <p>Underneath it all is a common instinct: <span class="pulse">I build systems for how people learn and grow.</span> Educated as a jazz composer, I&rsquo;ve brought that balance of structure and flexibility to creatively architecting learning ecosystems that constantly measure business impact and evolve accordingly.</p>
+      <p>Whether you&rsquo;re a scale-up whose growth requires more rigorous systems around core challenges like employee onboarding, manager development, and career pathways, or you&rsquo;re an enterprise trying to adopt AI and manage the messy human elements of that transition, I bring clarity, creativity, rigor, and a human touch to solving these wicked problems in novel ways.</p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="eyebrow">Skills</div>
+    <h2>Expertise built over a career.</h2>
+    <p class="skill-intro">These aren&rsquo;t a keyword list. Tap any one to see the roles and results where I actually used it.</p>
+    <div class="chips" id="chips"></div>
+    <p class="skill-note">* Familiar with all major AI ecosystems; primarily the Anthropic / Claude harness for daily work and agent design.</p>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="eyebrow">Experience</div>
+    <h2>Helping people grow skills and advance careers.</h2>
+    <div class="exp-controls">
+      <span class="hint">Click any role to expand it. Or filter by a skill above to light up the matching roles and results.</span>
+    </div>
+
+    <div class="filterbar" id="filterbar">
+      <span>Showing where I&rsquo;ve actually done <b id="filterName"></b></span>
+      <span id="filterCount" style="color:var(--muted)"></span>
+      <button class="reset" onclick="clearFilter()">Clear filter</button>
+    </div>
+
+    <div class="roles" id="roles">
+
+      <!-- CultivateMe -->
+      <div class="role">
+        <button class="card-head" onclick="toggleRole(this)">
+          <div>
+            <div class="role-title">Founder &amp; Head of Learning</div>
+            <div class="role-org">CultivateMe<span class="sep">/</span>Princeton, NJ</div>
+          </div>
+          <div class="role-meta"><span class="dates">Mar 2023 &ndash; Present</span><span class="chev"></span></div>
+          <div class="outcome">Founded an AI-focused L&amp;D practice and built Iris, an AI talent platform serving 1,000+ users.</div>
+        </button>
+        <div class="card-body"><div class="card-body-inner"><div class="body-pad">
+          <p class="blurb">Independent AI-focused L&amp;D consultancy, founded in 2016 as a side practice in skills-based talent development. Taken full-time in 2023 when generative AI made the original vision technically feasible, building Iris, an AI-enabled talent development platform. After sunsetting Iris in 2025, refocused the practice on AI integration advisory.</p>
+          <ul class="bullets">
+            <li data-skills="AI Enablement,Workflow Design">Consulting with services businesses on AI integration to identify high-leverage workflow automations that free human capacity for the client-facing work that drives retention.</li>
+            <li data-skills="AI Enablement,Workflow Design">Built Iris, an AI-enabled talent development platform that visualized role-based employee skill maps to support structured growth conversations, generate custom learning resources, and deliver micro-coaching. LLM integrations reduced core design workflows from 5 hours to 5 minutes.</li>
+            <li data-skills="Performance Consulting,Executive Communication">Operated as a trusted advisor to C-suite leaders, diagnosing capability gaps and designing learning ecosystems. Flagship client won the Princess Royal Training Award, with revenue per hour and profit each improving by 10%.</li>
+            <li data-skills="Learning Design,Workshop Facilitation,Adult Learning Theory">Designed and taught <i>Become a Skills-Based Organization</i> on Maven.com (4.4/5.0), an AI-enabled, cohort-based course guiding L&amp;D leaders through building a strategic transformation plan for their own learning function.</li>
+          </ul>
+        </div></div></div>
+      </div>
+
+      <!-- ETS -->
+      <div class="role">
+        <button class="card-head" onclick="toggleRole(this)">
+          <div>
+            <div class="role-title">Head of Learning (Sr. Director)</div>
+            <div class="role-org">Educational Testing Service<span class="sep">/</span>Princeton, NJ</div>
+          </div>
+          <div class="role-meta"><span class="dates">Aug 2019 &ndash; Mar 2023</span><span class="chev"></span></div>
+          <div class="outcome">Rebuilt L&amp;D for a 2,500-person enterprise; tripled platform engagement and cut onboarding admin effort 75%.</div>
+        </button>
+        <div class="card-body"><div class="card-body-inner"><div class="body-pad">
+          <p class="blurb">Recruited to modernize and reimagine Learning &amp; Organizational Development at a 2,500-person organization, with full accountability for learning strategy, performance consulting, program design, and change management across the enterprise. Led a team of 10 on a $2M budget.</p>
+          <ul class="bullets">
+            <li data-skills="Performance Consulting">Transformed an L&amp;D team of 10 from reactive order-takers into trusted performance consultants by restructuring around client-portfolio ownership and training the team in JTBD analysis, producing stronger stakeholder relationships and faster delivery of business-aligned solutions.</li>
+            <li data-skills="Change Management">Deployed and drove adoption of a modern enterprise LMS across 2,500 employees that tripled monthly active users in 5 months, reduced platform costs 45%, and grew non-required completion rates from 16% to 37%.</li>
+            <li data-skills="Program Management,Learning Design,Adult Learning Theory">Designed a 12-week Foundations of Management program that drove a 37% average improvement in skill mastery and correlated with 43% lower turnover on graduate-led teams.</li>
+            <li data-skills="Learning Design,Workflow Design">Redesigned global onboarding into a 90-day structured experience that increased new-hire satisfaction by 36% while leveraging automation to reduce administrative effort by 75%.</li>
+            <li data-skills="Program Management">Built a company-wide OKR learning ecosystem in approximately one week; achieved 90% system enrollment in the first quarter with only a 7% OKR rejection rate.</li>
+            <li data-skills="Change Management,Executive Communication">Spearheaded enterprise change management during a major leadership transition, mapping culture-change levers, building executive messaging frameworks, and mobilizing a cross-company community of change agents without formal authority.</li>
+          </ul>
+        </div></div></div>
+      </div>
+
+      <!-- Pearson PLC -->
+      <div class="role">
+        <button class="card-head" onclick="toggleRole(this)">
+          <div>
+            <div class="role-title">Director of Learning, Product Life Cycle</div>
+            <div class="role-org">Pearson<span class="sep">/</span>New York, NY</div>
+          </div>
+          <div class="role-meta"><span class="dates">May 2015 &ndash; Jul 2019</span><span class="chev"></span></div>
+          <div class="outcome">Scaled a Lean/Agile operating model across a 30,000-person, 80-country organization.</div>
+        </button>
+        <div class="card-body"><div class="card-body-inner"><div class="body-pad">
+          <p class="blurb">Tapped to help drive a fundamental transformation in how a 30,000-person organization across 80+ countries built and managed products, coaching and training leaders at every level in Lean/Agile methodology, VC-style investment governance, business-model design, and portfolio strategy across business units with $100M+ portfolios.</p>
+          <ul class="bullets">
+            <li data-skills="Change Management">Scaled Pearson&rsquo;s Lean/Agile Product Life Cycle framework across a 30,000-person organization operating in 80+ countries, reaching 80% of the company&rsquo;s global product portfolio within two years of launch.</li>
+            <li data-skills="Program Management,Coaching">Designed and led a global coach-certification program for product teams and senior leaders, building a company-wide cohort of internal coaches capable of independently sustaining the transformation.</li>
+            <li data-skills="Performance Consulting,Workshop Facilitation,Executive Communication,Cross-functional Leadership,Coaching">Operated as an internal consultant to business units with $100M+ product portfolios, leading strategy workshops and coaching senior leaders and product teams on portfolio investment governance and Lean Startup methodology without formal authority over any of them.</li>
+            <li data-skills="Change Management,Cross-functional Leadership">Built communities of practice and knowledge networks across 19+ enabling functions, extending the Lean enterprise transformation well beyond product teams into the full organizational ecosystem.</li>
+          </ul>
+        </div></div></div>
+      </div>
+
+      <!-- Pearson NA -->
+      <div class="role">
+        <button class="card-head" onclick="toggleRole(this)">
+          <div>
+            <div class="role-title">Director of Learning, North America</div>
+            <div class="role-org">Pearson<span class="sep">/</span>New York, NY</div>
+          </div>
+          <div class="role-meta"><span class="dates">Aug 2013 &ndash; Apr 2015</span><span class="chev"></span></div>
+          <div class="outcome">Unified L&amp;D for a 600-person sales force after a five-business-unit merger.</div>
+        </button>
+        <div class="card-body"><div class="card-body-inner"><div class="body-pad">
+          <p class="blurb">Promoted to build a unified L&amp;D function for Pearson&rsquo;s 600+ person K-12 North America sales force following the merger of five business units, accountable for learning strategy, content production, and large-scale event delivery.</p>
+          <ul class="bullets">
+            <li data-skills="Learning Design,Cross-functional Leadership">Designed a reusable learning-content framework and led 5 cross-functional business-unit marketing teams to produce content within it under a one-month deadline.</li>
+            <li data-skills="Adult Learning Theory">Built a self-teaching learning ecosystem that surfaced and distributed expertise from across the 600-person sales force, turning top performers into SMEs and reducing reliance on centralized course production.</li>
+            <li data-skills="Learning Design">Produced a video-based sales-enablement library distributed via mobile LMS, an early-adoption move for corporate learning in 2013&ndash;14 and one of Pearson&rsquo;s first uses of the format at scale.</li>
+            <li data-skills="Program Management,Workshop Facilitation">Designed, project-managed, and emceed annual national sales meetings of ~1,000 attendees, owning the full event end to end, including agenda, stakeholders, logistics, and facilitation.</li>
+          </ul>
+        </div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPEAKING -->
+  <section id="speaking">
+    <div class="eyebrow">Writing &amp; Speaking</div>
+    <h2>Out in the field.</h2>
+    <div class="pubs" style="margin-top:26px">
+      <div class="pub"><div class="type">Podcast</div><div><div class="ptitle"><a href="https://open.spotify.com/episode/5STqhVMDGDFnOPMxEBqpPr" target="_blank" rel="noopener">The L&amp;D Podcast w/ David James<span class="arr">&#8599;</span></a></div><div class="pdesc">Lean and problem-driven L&amp;D powered by automation.</div></div></div>
+      <div class="pub"><div class="type">Podcast</div><div><div class="ptitle"><a href="https://open.spotify.com/episode/7dFBbDMDA5XUW7EbLF2LTy" target="_blank" rel="noopener">The L&amp;D Podcast w/ David James<span class="arr">&#8599;</span></a></div><div class="pdesc">A framework for skills-based learning, enabled by AI.</div></div></div>
+      <div class="pub"><div class="type">Essay</div><div><div class="ptitle"><a href="https://linkedin.com/pulse/agentic-ai-save-ld-gabe-gloege-afnze/" target="_blank" rel="noopener">Agentic AI Will Save L&amp;D<span class="arr">&#8599;</span></a></div><div class="pdesc">A roadmap for restructuring workplace learning in the age of agentic AI. (LinkedIn)</div></div></div>
+      <div class="pub"><div class="type">Workshop</div><div><div class="ptitle"><a href="https://youtu.be/L72yWRwUOgE" target="_blank" rel="noopener">How to Speak Business<span class="arr">&#8599;</span></a></div><div class="pdesc">Using the business model canvas as an L&amp;D consulting tool.</div></div></div>
+      <div class="pub"><div class="type">Course</div><div><div class="ptitle"><a href="https://maven.com/cultivate-me/skills-based-org" target="_blank" rel="noopener">Become a Skills-Based Organization<span class="arr">&#8599;</span></a></div><div class="pdesc">Cohort-based course on Maven (4.4/5.0 rating).</div></div></div>
+      <div class="pub"><div class="type">Walkthrough</div><div><div class="ptitle"><a href="https://loom.com/share/cd2a1371f54444fc833b7bdec762fa08" target="_blank" rel="noopener">Iris<span class="arr">&#8599;</span></a></div><div class="pdesc">Walkthrough of the Iris platform and its LLM integrations.</div></div></div>
+      <div class="pub"><div class="type">Essay</div><div><div class="ptitle"><a href="https://linkedin.com/pulse/what-lean-ld-gabe-gloege/" target="_blank" rel="noopener">Lean L&amp;D<span class="arr">&#8599;</span></a></div><div class="pdesc">A framework for operating L&amp;D teams like a startup. (LinkedIn)</div></div></div>
+      <div class="pub"><div class="type">Guide</div><div><div class="ptitle"><a href="https://ggloege.github.io/jobs-to-journeys/" target="_blank" rel="noopener">Jobs to Journeys<span class="arr">&#8599;</span></a></div><div class="pdesc">A practitioner guide for connecting talent development to business strategy.</div></div></div>
+      <div class="pub"><div class="type">Podcast</div><div><div class="ptitle"><a href="https://open.spotify.com/episode/66UhxbmAFoA1gMS3OgfwXG" target="_blank" rel="noopener">Is Training the Answer?<span class="arr">&#8599;</span></a></div><div class="pdesc">Discussing skills-based learning and AI in L&amp;D.</div></div></div>
+    </div>
+  </section>
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="eyebrow">Education</div>
+    <h2>From music architect to learning architect</h2>
+    <div class="edu" style="margin-top:24px">
+      <div>
+        <div class="deg">Master of Music, Jazz Composition</div>
+        <div class="school">New England Conservatory &middot; Boston, MA</div>
+      </div>
+      <div>
+        <div class="deg">Bachelor of Music, Composition &amp; Percussion</div>
+        <div class="school">Lawrence University &middot; Appleton, WI</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">Gabe Gloege &middot; Princeton, NJ</footer>
+
+<script>
+  /* ---- Fibonacci / golden spiral mark, drawn + animated once on load ---- */
+  (function(){
+    const phi=(1+Math.sqrt(5))/2, b=Math.log(phi)/(Math.PI/2), a=0.42;
+    let d='';
+    for(let t=0;t<=4*Math.PI;t+=0.08){
+      const r=a*Math.exp(b*t);
+      const x=(24 - r*Math.cos(t)).toFixed(2);
+      const y=(24 - r*Math.sin(t)).toFixed(2);
+      d+=(t===0?'M':'L')+x+' '+y+' ';
+    }
+    const p=document.getElementById('spiral');
+    p.setAttribute('d',d);
+    const len=p.getTotalLength();
+    p.style.strokeDasharray=len;
+    p.style.strokeDashoffset=len;
+    requestAnimationFrame(()=>{
+      p.style.transition='stroke-dashoffset 1.7s cubic-bezier(.3,.7,.2,1)';
+      p.style.strokeDashoffset=0;
+    });
+  })();
+
+  /* ---- Skills (order matches resume; * = AI core) ---- */
+  const SKILLS=[
+    {name:'AI Enablement',ai:true},{name:'Performance Consulting'},{name:'Executive Communication'},
+    {name:'Workflow Design'},{name:'Workshop Facilitation'},{name:'Change Management'},
+    {name:'Adult Learning Theory'},{name:'Learning Design'},{name:'Program Management'},
+    {name:'Cross-functional Leadership'},{name:'Coaching'}
+  ];
+  const chipWrap=document.getElementById('chips');
+  SKILLS.forEach(s=>{
+    const btn=document.createElement('button');
+    btn.className='chip';
+    btn.dataset.skill=s.name;
+    btn.innerHTML=s.name+(s.ai?'<span class="ai">*</span>':'');
+    btn.onclick=()=>toggleFilter(s.name,btn);
+    chipWrap.appendChild(btn);
+  });
+
+  /* ---- Expand / collapse a role ---- */
+  function toggleRole(head){ head.closest('.role').classList.toggle('open'); }
+
+  /* ---- Skill filter: light up the receipts ---- */
+  let activeSkill=null;
+  const roles=[...document.querySelectorAll('.role')];
+
+  function toggleFilter(skill,btn){
+    if(activeSkill===skill){ clearFilter(); return; }
+    clearFilter(true);
+    activeSkill=skill;
+    btn.classList.add('active');
+    let matches=0;
+    roles.forEach(role=>{
+      const bullets=[...role.querySelectorAll('.bullets li')];
+      const hits=bullets.filter(li=>(li.dataset.skills||'').split(',').includes(skill));
+      if(hits.length){
+        matches++;
+        role.classList.add('lit'); role.classList.add('open');
+        hits.forEach(li=>li.classList.add('bullet-match'));
+      } else {
+        role.classList.add('dim'); role.classList.remove('open');
+      }
+    });
+    const bar=document.getElementById('filterbar');
+    document.getElementById('filterName').textContent=skill;
+    document.getElementById('filterCount').textContent=
+      matches?('· '+matches+(matches===1?' role':' roles')):'· nothing tagged yet';
+    bar.classList.add('show');
+    document.getElementById('experience').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  function clearFilter(silent){
+    activeSkill=null;
+    document.querySelectorAll('.chip.active').forEach(c=>c.classList.remove('active'));
+    roles.forEach(r=>{r.classList.remove('lit','dim','open');});
+    document.querySelectorAll('.bullet-match').forEach(li=>li.classList.remove('bullet-match'));
+    document.getElementById('filterbar').classList.remove('show');
+    if(!silent){/* stay where you are */}
+  }
+
+  /* ---- In-page nav. These elements carry no href on purpose: the public
+         artifact viewer flags any click on an anchor with an href as a
+         "leaving Claude" navigation, even for same-page hashes. With no href
+         there is nothing for it to intercept, so we drive scrolling from a
+         data-target attribute instead. ---- */
+  function goTo(id){
+    const el=document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('click',e=>{e.preventDefault();goTo(el.dataset.target);});
+    el.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();goTo(el.dataset.target);}
+    });
+  });
+</script>
+</body>
+</html>
